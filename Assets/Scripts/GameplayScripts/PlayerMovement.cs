@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] float speed;
-    [SerializeField] float jumpForce;
+    public float speed;
+    public float jumpForce;
     private Rigidbody2D rig;
     private bool isJumping = false;
     private bool isShooting = false;
@@ -84,7 +84,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if(itemInRange != null && Input.GetKeyDown(controllers.interactInput))
         {
-            itemInRange.ActivateInteraction();
+            itemInRange.ActivateInteraction(GetComponent<PlayerManager>());
         }
     }
 

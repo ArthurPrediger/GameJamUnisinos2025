@@ -16,6 +16,8 @@ public class Werewolf : MonoBehaviour
     [SerializeField]
     private float jumpForce = 2f;
     [SerializeField]
+    private float playerDistJump = 2.0f;
+    [SerializeField]
     private float playerDistAttack = 2.0f;
     private bool canJump = false;
 
@@ -29,9 +31,14 @@ public class Werewolf : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+      
+    }
+
+    private void FixedUpdate()
+    { 
         Vector3 targetDir = (player.transform.position - transform.position);
 
-        if(targetDir.magnitude > playerDistAttack)
+        if (targetDir.magnitude > playerDistAttack)
         {
             ChasePlayer(targetDir);
         }
@@ -39,10 +46,6 @@ public class Werewolf : MonoBehaviour
         {
 
         }
-    }
-
-    private void FixedUpdate()
-    {
     }
 
     private void ChasePlayer(Vector3 targetDir)
@@ -54,9 +57,9 @@ public class Werewolf : MonoBehaviour
         if (canJump)
         {
             Vector2 rayOrigin = transform.position + Vector3.right * Mathf.Sign(targetDir.y) * (collider.bounds.extents.x + 0.0001f);
-            Vector2 rayDir = Vector2.right * Mathf.Sign(targetDir.x) * 2f;
+            Vector2 rayDir = Vector2.right * Mathf.Sign(targetDir.x) * playerDistJump;
             RaycastHit2D hit = Physics2D.Raycast(rayOrigin, rayDir);
-            if (hit.collider && hit.collider.CompareTag("Ground") && hit.distance < 1.0f)
+            if (hit.collider && hit.collider.CompareTag("Ground") && hit.distance < playerDistJump)
             {
                 rb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
                 canJump = false;

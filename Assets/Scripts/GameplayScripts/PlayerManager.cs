@@ -10,6 +10,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] float speedBoostTime = 5f;
     [SerializeField] float jumpBoost = 10f;
     [SerializeField] float jumpBoostTime = 5f;
+    [SerializeField] int lifes = 3;
 
     private void Start()
     {
@@ -56,5 +57,21 @@ public class PlayerManager : MonoBehaviour
         yield return new WaitForSeconds(jumpBoostTime);
         movement.jumpForce = defaultJump;
     }
-      
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Abyss"))
+        {
+            DecreaseLife();
+        }
+    }
+
+    public void DecreaseLife()
+    {
+        lifes--;
+        if (lifes == 0)
+        {
+            GameObject.FindObjectOfType<GameManager>().GameOver();
+        }
+    }
 }
